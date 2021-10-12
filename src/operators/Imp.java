@@ -13,10 +13,10 @@ public class Imp extends Operator {
     }
 
     public boolean eval(Map<Character, Boolean> values) throws InvalidValues {
-        return !this.leftNode.eval(values) || this.rightNode.eval(values);
+        return !this.nodes.get(0).eval(values) || this.nodes.get(1).eval(values);
     }
 
     public String toString() {
-        return "(" + this.leftNode.toString() + " ⇒ " + this.rightNode.toString() + ")";
+        return "(" + this.nodes.get(0).toString() + " ⇒ " + this.nodes.get(1).toString() + ")";
     }
 }

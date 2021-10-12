@@ -8,18 +8,23 @@ public class App {
 
     public static void main(String args[]) throws InvalidValues {
 
+        Proposition w = new Proposition('w');
         Proposition x = new Proposition('x');
         Proposition y = new Proposition('y');
         Proposition z = new Proposition('z');
 
-        Node exp = new Or(new And(x.not(), y), new Not(new Bid(z, y.not())));
+        TruthTable result;
+        Node exp;
 
-        System.out.println(exp.toString());
-
-        boolean r = exp.eval(new Value('x', false), new Value('y', true), new Value('z', false));
-
-        var result = exp.getTruthTable();
+        exp = new Bid(w, x, y, z);
+        result = exp.getTruthTable();
         System.out.println(result.toString());
 
+        exp = new Bid(x, new Bid(y, z));
+        result = exp.getTruthTable();
+        System.out.println(result.toString());
+
+        // boolean r = exp.eval(new Value('x', false), new Value('y', true), new
+        // Value('z', false));
     }
 }

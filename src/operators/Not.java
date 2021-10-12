@@ -15,17 +15,17 @@ public class Not extends Operator {
     }
 
     public boolean eval(Map<Character, Boolean> values) throws InvalidValues {
-        return !this.leftNode.eval(values);
+        return !this.nodes.get(0).eval(values);
     }
 
     /** Special implementation -> no right node */
     public List<Character> getPropositions() {
         List<Character> props = new ArrayList<>();
-        props.addAll(this.leftNode.getPropositions());
+        props.addAll(this.nodes.get(0).getPropositions());
         return props;
     }
 
     public String toString() {
-        return "¬" + this.leftNode.toString();
+        return "¬" + this.nodes.get(0).toString();
     }
 }

@@ -1,6 +1,7 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -10,17 +11,26 @@ import exceptions.InvalidValues;
 import schemas.Node;
 
 public abstract class Operator implements Node {
-    protected final Node leftNode;
-    protected final Node rightNode;
 
-    public Operator(Node node) {
-        this.leftNode = node;
-        this.rightNode = null;
+    protected final List<Node> nodes;
+
+    public Operator(Node... nodes) {
+        this.nodes = Arrays.asList(nodes);
     }
 
-    public Operator(Node left, Node right) {
-        this.leftNode = left;
-        this.rightNode = right;
+    public List<Character> getPropositions() {
+        List<Character> props = new ArrayList<>();
+
+        for (Node node : this.nodes) {
+            // guarantees uniqueness
+            for (char name : node.getPropositions()) {
+                if (!props.contains(name)) {
+                    props.add(name);
+                }
+            }
+        }
+
+        return props;
     }
 
     public boolean eval(Value... values) throws InvalidValues {
@@ -32,21 +42,6 @@ public abstract class Operator implements Node {
         }
 
         return eval(valuesMap);
-    }
-
-    public List<Character> getPropositions() {
-        List<Character> props = new ArrayList<>();
-
-        props.addAll(this.leftNode.getPropositions());
-
-        // guarantees uniqueness
-        for (char name : this.rightNode.getPropositions()) {
-            if (!props.contains(name)) {
-                props.add(name);
-            }
-        }
-
-        return props;
     }
 
     public TruthTable getTruthTable() {
